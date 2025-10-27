@@ -1,15 +1,14 @@
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
-import main
-import os, random
+import main  # main.calcを使用
+import random
+import os
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
-# staticフォルダとしてimagesを公開
-app.mount("/images", StaticFiles(directory="images"), name="images")
+IMAGE_DIR = "images"  # imagesフォルダをプロジェクト直下に置く
 
 @app.get("/", response_class=HTMLResponse)
 async def form_get(request: Request):
@@ -29,7 +28,6 @@ async def form_get(request: Request):
         "flag": False
     }
     return templates.TemplateResponse("index.html", context)
-
 
 @app.post("/", response_class=HTMLResponse)
 async def form_post(
@@ -60,11 +58,9 @@ async def form_post(
 
     image_path = None
     if result == "アイス":
-        image_dir = os.path.join(os.path.dirname(__file__), "images")
-        images = [f for f in os.listdir(image_dir) if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif"))]
+        images = [f for f in os.listdir(IMAGE_DIR) if f.lower().endswith(('.png','.jpg','.jpeg','.gif'))]
         if images:
-            chosen = random.choice(images)
-            image_path = f"/images/{chosen}"
+            image_path = f"/{IMAGE_DIR}/{random.choice(images)}"
 
     context = {
         "request": request,
@@ -82,3 +78,7 @@ async def form_post(
         "flag": flag
     }
     return templates.TemplateResponse("index.html", context)
+
+# staticで画像を配信
+from fastapi.staticfiles import StaticFiles
+app.mount("/images", StaticFiles(directory=IMAGE_DIR), name="images")

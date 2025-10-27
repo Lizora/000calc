@@ -2,81 +2,149 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>両替計算機</title>
   <style>
     body {
       font-family: sans-serif;
-      padding: 30px;
+      padding: 20px;
+      background: #f2f2f2;
     }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
     form {
       display: grid;
-      grid-template-columns: 120px 100px;
-      row-gap: 8px;
-      column-gap: 10px;
+      grid-template-columns: 120px 1fr;
+      row-gap: 12px;
+      column-gap: 12px;
       align-items: center;
+      max-width: 500px;
+      margin: auto;
+      background: #005eab;
+      padding: 20px 20px 20px 0px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
+
     label {
       text-align: right;
+      padding-right: 5px;
+      font-size: 1em;
+      color: white;
     }
+
     input[type="number"] {
-      width: 100px;
+      width: 90%;
       text-align: right;
       -moz-appearance: textfield;
+      padding: 8px;
+      padding-right: 22px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
-    /* スピンボタンを消す */
+
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
-    button {
-      margin-top: 20px;
-      grid-column: 1 / span 2;
+
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      transform: scale(1.2);
     }
 
-    /* 結果表示（改行・空白をそのまま表示） */
+    button {
+      width: 160px;
+      margin: 0 0 0 330px;
+      padding: 12px 0;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 8px;
+      background: #f04da1;
+      color: white;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+
+    button:hover {
+      background: #bc0e68;
+    }
+
     .result {
       white-space: pre-wrap;
       font-family: monospace;
       font-size: large;
       margin-top: 20px;
-      background: white;
-      padding: 10px;
-      border-radius: 8px;
+      color: rgb(0, 0, 0);
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      max-width: 190px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    img.result-img {
+      max-width: 90%;
+      margin-top: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 400px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+      label {
+        text-align: left;
+        margin-bottom: 4px;
+      }
+      button {
+        grid-column: 1;
+      }
     }
   </style>
 </head>
 <body>
-  <h2>両替計算機</h2>
 
-  <!-- autocompleteをoffにしてブラウザ候補を抑制 -->
-  <form method="post" id="calc-form" autocomplete="off" spellcheck="false" autocapitalize="off" autocorrect="off">
+  <form method="post" id="calc-form" autocomplete="off" spellcheck="false">
     <label>10000円:</label>
-    <input type="number" name="yen10000" value="{{ yen10000 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+    <input type="number" name="yen10000" value="{{ yen10000 or '' }}" inputmode="numeric" autocomplete="new-password">
 
     <label>5000円:</label>
-    <input type="number" name="yen5000" value="{{ yen5000 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+    <input type="number" name="yen5000" value="{{ yen5000 or '' }}" inputmode="numeric" autocomplete="new-password">
 
     <label>1000円:</label>
-    <input type="number" name="yen1000" value="{{ yen1000 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+    <input type="number" name="yen1000" value="{{ yen1000 or '' }}" inputmode="numeric" autocomplete="new-password">
 
     <label>500円:</label>
-    <input type="number" name="yen500" value="{{ yen500 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+    <input type="number" name="yen500" value="{{ yen500 or '' }}" inputmode="numeric" autocomplete="new-password">
 
     <label>100円:</label>
-    <input type="number" name="yen100" value="{{ yen100 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+    <input type="number" name="yen100" value="{{ yen100 or '' }}" inputmode="numeric" autocomplete="new-password">
 
     <label>50円:</label>
-    <input type="number" name="yen50" value="{{ yen50 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+    <input type="number" name="yen50" value="{{ yen50 or '' }}" inputmode="numeric" autocomplete="new-password">
 
     <label>10円:</label>
-    <input type="number" name="yen10" value="{{ yen10 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+    <input type="number" name="yen10" value="{{ yen10 or '' }}" inputmode="numeric" autocomplete="new-password">
 
     <label>5円:</label>
-    <input type="number" name="yen5" value="{{ yen5 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+    <input type="number" name="yen5" value="{{ yen5 or '' }}" inputmode="numeric" autocomplete="new-password">
 
     <label>1円:</label>
-    <input type="number" name="yen1" value="{{ yen1 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+    <input type="number" name="yen1" value="{{ yen1 or '' }}" inputmode="numeric" autocomplete="new-password">
 
     <label>混んでる？</label>
     <input type="checkbox" name="flag" {% if flag %}checked{% endif %}>
@@ -85,14 +153,12 @@
   </form>
 
   {% if result is not none %}
-    <!-- 改行・空白がそのまま表示されるブロック -->
     <div class="result">{{ result }}</div>
   {% elif image_path %}
-    <img src="{{ image_path }}" alt="result image" style="max-width: 300px; margin-top: 10px;">
+    <img src="{{ image_path }}" alt="result image" class="result-img">
   {% endif %}
 
   <script>
-    // Enterで次の数値入力欄へ移動（数値入力のみ）
     document.addEventListener("DOMContentLoaded", () => {
       const numInputs = Array.from(document.querySelectorAll('#calc-form input[type="number"]'));
       numInputs.forEach((input, i) => {
@@ -100,24 +166,12 @@
           if (e.key === 'Enter') {
             e.preventDefault();
             const next = numInputs[i + 1];
-            if (next) {
-              next.focus();
-              // 全選択してすぐ入力できるようにする
-              next.select();
-            } else {
-              // 最後ならフォーム送信
-              document.getElementById('calc-form').requestSubmit();
-            }
+            if (next) next.focus(), next.select();
+            else document.getElementById('calc-form').requestSubmit();
           }
         });
-
-        // フォーカスされたら中の数字を選択（上書きしやすく）
-        input.addEventListener('focus', () => {
-          input.select();
-        });
+        input.addEventListener('focus', () => { input.select(); });
       });
-
-      // 余計なブラウザ候補（autocomplete）抑制のためにformとinputsは既に属性を設定しています
     });
   </script>
 </body>
