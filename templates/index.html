@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>両替計算機</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 30px;
+    }
+    form {
+      display: grid;
+      grid-template-columns: 120px 100px;
+      row-gap: 8px;
+      column-gap: 10px;
+      align-items: center;
+    }
+    label {
+      text-align: right;
+    }
+    input[type="number"] {
+      width: 100px;
+      text-align: right;
+      -moz-appearance: textfield;
+    }
+    /* スピンボタンを消す */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    button {
+      margin-top: 20px;
+      grid-column: 1 / span 2;
+    }
+
+    /* 結果表示（改行・空白をそのまま表示） */
+    .result {
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: large;
+      margin-top: 20px;
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h2>両替計算機</h2>
+
+  <!-- autocompleteをoffにしてブラウザ候補を抑制 -->
+  <form method="post" id="calc-form" autocomplete="off" spellcheck="false" autocapitalize="off" autocorrect="off">
+    <label>10000円:</label>
+    <input type="number" name="yen10000" value="{{ yen10000 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+
+    <label>5000円:</label>
+    <input type="number" name="yen5000" value="{{ yen5000 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+
+    <label>1000円:</label>
+    <input type="number" name="yen1000" value="{{ yen1000 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+
+    <label>500円:</label>
+    <input type="number" name="yen500" value="{{ yen500 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+
+    <label>100円:</label>
+    <input type="number" name="yen100" value="{{ yen100 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+
+    <label>50円:</label>
+    <input type="number" name="yen50" value="{{ yen50 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+
+    <label>10円:</label>
+    <input type="number" name="yen10" value="{{ yen10 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+
+    <label>5円:</label>
+    <input type="number" name="yen5" value="{{ yen5 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+
+    <label>1円:</label>
+    <input type="number" name="yen1" value="{{ yen1 or '' }}" inputmode="numeric" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off">
+
+    <label>混んでる？</label>
+    <input type="checkbox" name="flag" {% if flag %}checked{% endif %}>
+
+    <button type="submit">計算する</button>
+  </form>
+
+  {% if result is not none %}
+    <!-- 改行・空白がそのまま表示されるブロック -->
+    <div class="result">{{ result }}</div>
+  {% elif image_path %}
+    <img src="{{ image_path }}" alt="result image" style="max-width: 300px; margin-top: 10px;">
+  {% endif %}
+
+  <script>
+    // Enterで次の数値入力欄へ移動（数値入力のみ）
+    document.addEventListener("DOMContentLoaded", () => {
+      const numInputs = Array.from(document.querySelectorAll('#calc-form input[type="number"]'));
+      numInputs.forEach((input, i) => {
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const next = numInputs[i + 1];
+            if (next) {
+              next.focus();
+              // 全選択してすぐ入力できるようにする
+              next.select();
+            } else {
+              // 最後ならフォーム送信
+              document.getElementById('calc-form').requestSubmit();
+            }
+          }
+        });
+
+        // フォーカスされたら中の数字を選択（上書きしやすく）
+        input.addEventListener('focus', () => {
+          input.select();
+        });
+      });
+
+      // 余計なブラウザ候補（autocomplete）抑制のためにformとinputsは既に属性を設定しています
+    });
+  </script>
+</body>
+</html>
