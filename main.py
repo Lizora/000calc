@@ -38,10 +38,10 @@ def calc(_10000, _5000, _1000, _500, _100, _50, _10, _5, _1, flag):
     
     need_5_100 = 10 - ((res[100] % 50) // 5)
 
-    while _500 < need500:
-        res[500] += 1
-        need500 -= 1
-        cnt += 500
+    if _500 < need500:
+        d = need500 - _500
+        res[500] += d
+        cnt += 500 * d
     
     if _1000 < need1000:
         d = need1000 - _1000
@@ -68,22 +68,31 @@ def calc(_10000, _5000, _1000, _500, _100, _50, _10, _5, _1, flag):
                 need_5_100 = 0
                 continue
 
-            if d >= 10000:
+            elif d >= 10000:
                 res[5000] += 1
                 res[1000] += 4
                 res[500] += 2
                 d -= 10000
                 continue
 
-            elif d >= 5000:
-                res[1000] += 4
-                res[500] += 2
+            elif d >= 6500 and res[5000] + _5000 <= need5000 + 1:
+                res[5000] += 1
                 d -= 5000
                 continue
 
+            elif d >= 5000:
+                res[1000] += 3
+                res[500] += 3
+                d -= 4500
+                continue
+
             elif d >= 1000:
-                res[1000] += 1
-                d -= 1000
+                if res[500] + _500 <= need500 + 2:
+                    res[500] += 1
+                    d -= 500
+                else:
+                    res[1000] += 1
+                    d -= 1000
                 continue
                 
             else:
@@ -109,7 +118,7 @@ def calc(_10000, _5000, _1000, _500, _100, _50, _10, _5, _1, flag):
                 continue
 
             else:
-                return "両替不可"
+                return "お手上げ"
         
         d = prepare - cnt
 
