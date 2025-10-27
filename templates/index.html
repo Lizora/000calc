@@ -32,7 +32,7 @@
 
     label {
       text-align: right;
-      padding-right: 5px;
+      padding-right: 0px;
       font-size: 1em;
       color: white;
     }
@@ -61,9 +61,7 @@
     }
 
     button {
-      width: 160px;
-      margin: 0 0 0 330px;
-      padding: 12px 0;
+      padding: 12px 70px;
       font-size: 1.1em;
       border: none;
       border-radius: 8px;
@@ -71,6 +69,10 @@
       color: white;
       cursor: pointer;
       transition: background 0.1s;
+
+      grid-column: 2;
+      justify-self: end;
+      width: auto;
     }
 
     button:hover {
@@ -89,7 +91,7 @@
       max-width: 190px;
       margin-left: auto;
       margin-right: auto;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
     }
 
     img.result-img {
@@ -119,31 +121,31 @@
 <body>
 
   <form method="post" id="calc-form" autocomplete="off" spellcheck="false">
-    <label>10000円:</label>
+    <label>10000円：</label>
     <input type="number" name="yen10000" value="{{ yen10000 or '' }}" inputmode="numeric" autocomplete="new-password">
 
-    <label>5000円:</label>
+    <label>5000円：</label>
     <input type="number" name="yen5000" value="{{ yen5000 or '' }}" inputmode="numeric" autocomplete="new-password">
 
-    <label>1000円:</label>
+    <label>1000円：</label>
     <input type="number" name="yen1000" value="{{ yen1000 or '' }}" inputmode="numeric" autocomplete="new-password">
 
-    <label>500円:</label>
+    <label>500円：</label>
     <input type="number" name="yen500" value="{{ yen500 or '' }}" inputmode="numeric" autocomplete="new-password">
 
-    <label>100円:</label>
+    <label>100円：</label>
     <input type="number" name="yen100" value="{{ yen100 or '' }}" inputmode="numeric" autocomplete="new-password">
 
-    <label>50円:</label>
+    <label>50円：</label>
     <input type="number" name="yen50" value="{{ yen50 or '' }}" inputmode="numeric" autocomplete="new-password">
 
-    <label>10円:</label>
+    <label>10円：</label>
     <input type="number" name="yen10" value="{{ yen10 or '' }}" inputmode="numeric" autocomplete="new-password">
 
-    <label>5円:</label>
+    <label>5円：</label>
     <input type="number" name="yen5" value="{{ yen5 or '' }}" inputmode="numeric" autocomplete="new-password">
 
-    <label>1円:</label>
+    <label>1円：</label>
     <input type="number" name="yen1" value="{{ yen1 or '' }}" inputmode="numeric" autocomplete="new-password">
 
     <label>混んでる？</label>
