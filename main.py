@@ -118,7 +118,7 @@ def calc(_10000, _5000, _1000, _500, _100, _50, _10, _5, _1, flag):
                 continue
 
             else:
-                return "お手上げ"
+                return "お手上げ！"
         
         d = prepare - cnt
 
